@@ -40,4 +40,19 @@ class MainFragmentTest: BaseRobolectricTest() {
         fragment.invokeLoadingSuccess()
         fragment.view!!.error_background.text shouldEqual "Success"
     }
+    @Test
+    fun onLoadingFailed_setsErrorAsTextInErrorView_sleep() {
+        // Never pass
+        fragment.invokeLoadingError()
+        Thread.sleep(1000)
+        fragment.view!!.error_background.text shouldEqual "Error"
+    }
+
+    @Test
+    fun onLoadingSuccess_setsSuccessAsTextInErrorView_sleep() {
+        // Sometimes passes
+        fragment.invokeLoadingSuccess()
+        Thread.sleep(1000)
+        fragment.view!!.error_background.text shouldEqual "Success"
+    }
 }

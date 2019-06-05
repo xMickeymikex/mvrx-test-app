@@ -18,7 +18,7 @@ class MainViewModelTest {
     
     @Test
     fun onLoadingFailed_setsLoadingStateToFailWithProperException() {
-        // Never pass
+        // Sometimes passes
         val error = Throwable()
         viewModel.onLoadingFailed(error)
 
@@ -31,6 +31,31 @@ class MainViewModelTest {
     fun onLoadingSuccess_setsLoadingStateToSuccess() {
         // Sometimes passes
         viewModel.onLoadingSuccess()
+        withState(viewModel) {
+            it.loading shouldEqual Success(Unit)
+        }
+    }
+
+    @Test
+    fun onLoadingFailed_setsLoadingStateToFailWithProperException_sleep() {
+        // Always passes
+        val error = Throwable()
+        viewModel.onLoadingFailed(error)
+
+        Thread.sleep(1000)
+
+        withState(viewModel) {
+            it.loading shouldEqual Fail(error)
+        }
+    }
+
+    @Test
+    fun onLoadingSuccess_setsLoadingStateToSuccess_sleep() {
+        // Always passes
+        viewModel.onLoadingSuccess()
+
+        Thread.sleep(1000)
+
         withState(viewModel) {
             it.loading shouldEqual Success(Unit)
         }
